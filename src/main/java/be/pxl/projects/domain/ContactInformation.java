@@ -1,7 +1,12 @@
-package be.pxl.projects.domain.domain;
+package be.pxl.projects.domain;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "contact_info")
 public class ContactInformation {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String phone;
     private String email;
@@ -33,5 +38,15 @@ public class ContactInformation {
 
     public void setLinkedIn(String linkedIn) {
         this.linkedIn = linkedIn;
+    }
+
+    @Override
+    public String toString() {
+        return "ContactInformation{" +
+                "id=" + id +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", linkedIn='" + linkedIn + '\'' +
+                '}';
     }
 }

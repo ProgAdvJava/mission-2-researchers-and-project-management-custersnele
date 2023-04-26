@@ -1,31 +1,45 @@
 package be.pxl.projects.service;
 
-
 import be.pxl.projects.api.ContactType;
 import be.pxl.projects.api.ResearcherRequest;
+import be.pxl.projects.domain.ContactInformation;
+import be.pxl.projects.domain.Researcher;
+import be.pxl.projects.exception.ResourceNotFoundException;
+import be.pxl.projects.repository.ResearcherRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ResearcherService {
 
-    // TODO add ResearcherRepository here
+    private final ResearcherRepository researcherRepository;
 
-    public long createResearcher(ResearcherRequest researcherRequest) {
-        // Create Researcher-entity with ContactInformation-entity
-        // save Researcher-entity (make sure the contact information is saved as well)
-        return 0L;
+    public ResearcherService(ResearcherRepository researcherRepository) {
+        this.researcherRepository = researcherRepository;
     }
 
-    public void updateContactInformation(long researcherId, ContactType field, String value) throws NoSuchMethodException {
-        // retrieve researcher by researcherid
+    public long createResearcher(ResearcherRequest researcherRequest) {
+        Researcher researcher = new Researcher();
+        researcher.setFirstname(researcherRequest.firstname());
+        researcher.setLastname(researcherRequest.lastname());
+        ContactInformation contactInformation = new ContactInformation();
+        contactInformation.setEmail(researcherRequest.email());
+        contactInformation.setPhone(researcherRequest.phone());
+        contactInformation.setLinkedIn(researcherRequest.linkedIn());
+        researcher.setContactInformation(contactInformation);
+        return researcherRepository.save(researcher).getId();
+    }
+
+    @Transactional
+    public void updateContactInformation(long researcherId, ContactType field, String value) {
+        Researcher researcher = researcherRepository.findById(researcherId).orElseThrow(() -> new ResourceNotFoundException("Researcher", "id", researcherId));
         switch (field) {
-            case EMAIL -> throw new NoSuchMethodException("Implement this method."); // update email
-            case PHONE -> throw new NoSuchMethodException("Implement this method.");// update phone
-            case LINKEDIN -> throw new NoSuchMethodException("Implement this method.");// update linked in url
+            case EMAIL -> researcher.getContactInformation().setEmail(value);
+            case PHONE -> researcher.getContactInformation().setPhone(value);
         }
     }
 
     public void deleteResearcher(long researcherId) {
-        // delete the researcher with the given researcher id
+        researcherRepository.deleteById(researcherId);
     }
 }

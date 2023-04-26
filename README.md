@@ -17,7 +17,7 @@ Maak de ResearcherRepository aan. Vervolledig de methoden in de ResearcherServic
 De SetupController bevat een endpoint om Researchers aan te maken in de databank.
 Zorg ervoor dat je de contactinformatie van een researcher kunt aanpassen met het endpoint:
 ```
-http://localhost:<port>/<context-path>/researchers/<researcher-id>/<contact-type>
+PUT http://localhost:<port>/<context-path>/researchers/<researcher-id>/<contact-type>
 
 {
     "value" : "value-comes-here"

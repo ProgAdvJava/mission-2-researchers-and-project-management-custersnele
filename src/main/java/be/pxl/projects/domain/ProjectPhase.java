@@ -1,8 +1,8 @@
-package be.pxl.projects.domain.domain;
+package be.pxl.projects.domain;
 
 public enum ProjectPhase {
 	INITIATING,
 	PLANNING,
 	EXECUTING,
-	CLOSED;
+	CLOSING;
 }
