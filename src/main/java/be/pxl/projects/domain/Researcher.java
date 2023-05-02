@@ -1,5 +1,8 @@
 package be.pxl.projects.domain;
 
+import be.pxl.projects.exception.InvalidProjectPhaseException;
+import be.pxl.projects.exception.ResearcherAlreadyAssignedToProjectException;
+import be.pxl.projects.exception.ResearcherNotAssignedToProjectException;
 import jakarta.persistence.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -52,12 +55,44 @@ public class Researcher {
 		this.contactInformation = contactInformation;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Researcher that = (Researcher) o;
+
+		return id != null ? id.equals(that.id) : that.id == null;
+	}
+
+	@Override
+	public int hashCode() {
+		return id != null ? id.hashCode() : 0;
+	}
+
 	// TODO: write unit tests for this method
 	public void addProject(Project project) {
-		// TODO researcher already assigned
-		// LOGGER.info("Researcher [" + id + "] already assigned to [" + project.getName() + "]");
+		if (projects.contains(project)) {
+			// TODO researcher already assigned to project
+			LOGGER.info("Researcher [" + id + "] already assigned to [" + project.getName() + "]");
+			throw new ResearcherAlreadyAssignedToProjectException("Researcher [" + id + "] already assigned to [" + project.getName() + "]");
+		}
+		if (project.isClosed()) {
+			throw new InvalidProjectPhaseException("Project [" + project.getName() + "] is already closed.");
+		}
 		projects.add(project);
 		project.addResearcher(this);
+	}
+
+	public void removeProject(Project project) {
+		if (!projects.contains(project)) {
+			throw new ResearcherNotAssignedToProjectException("Researcher [" + id + "] is not assigned to [" + project.getName() + "]");
+		}
+		if (project.isClosed()) {
+			throw new InvalidProjectPhaseException("Project [" + project.getName() + "] is already closed.");
+		}
+		projects.remove(project);
+		project.removeResearcher(this);
 	}
 
 	@Override

@@ -34,8 +34,8 @@ Zorg er verder voor de een researcher verwijderd kan worden. Worden ook de bijho
 Vervolledig de entity-klasse Project. Je kan een researcher aan een project toekennen en van een project halen.
 Hiervoor worden de volgende twee endpoints ontwikkeld.
 ```
-http://localhost:<port>/<context-path>/researchers/<researcher-id>/join
-http://localhost:<port>/<context-path>/researchers/<researcher-id>/leave
+POST http://localhost:<port>/<context-path>/researchers/<researcher-id>/join
+POST http://localhost:<port>/<context-path>/researchers/<researcher-id>/leave
 ```
 Het project wordt meegegeven in json-formaat in de request-body.
 ```
@@ -56,6 +56,7 @@ Zorg dat je alle business-regels test met behulp van unit testen.
 #### 5. Status van een project aanpassen
 
 Ontwikkel een endpoint om de status van een project aan te passen. Je mag zelf beslissen hoe dit endpoint eruit ziet.
+Zorg dat de volgorde van de statussen wordt gerespecteerd.
 
 
 #### 6. Researcher opzoeken aan de hand van een id

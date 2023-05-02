@@ -1,5 +1,6 @@
 package be.pxl.projects.domain;
 
+import be.pxl.projects.exception.InvalidProjectPhaseException;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -56,6 +57,9 @@ public class Project {
 	}
 
 	public void setProjectPhase(ProjectPhase projectPhase) {
+		if (this.projectPhase.nextState() != projectPhase) {
+			throw new InvalidProjectPhaseException("Project [" + name + "] is currently in state [" + this.projectPhase + "]. Next state: [" + this.projectPhase.nextState() + "]");
+		}
 		this.projectPhase = projectPhase;
 	}
 
@@ -89,5 +93,9 @@ public class Project {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public boolean isClosed() {
+		return ProjectPhase.CLOSING.equals(projectPhase);
 	}
 }

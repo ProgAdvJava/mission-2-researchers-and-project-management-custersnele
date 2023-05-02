@@ -18,4 +18,15 @@ public class ResearcherController {
     public void updateContactInformation(@PathVariable Long researcherId, @PathVariable ContactType contactType, @RequestBody @Valid ContactTypeValue contactTypeValue) {
         researcherService.updateContactInformation(researcherId, contactType, contactTypeValue.value());
     }
+
+    @PostMapping("{researcherId}/join")
+    public void assignResearcherToProject(@PathVariable Long researcherId, @RequestBody @Valid ProjectRequest projectRequest) {
+        researcherService.addResearcherToProject(researcherId, projectRequest.project());
+    }
+
+    @PostMapping("{researcherId}/leave")
+    public void removeResearcherFromProject(@PathVariable Long researcherId, @RequestBody @Valid ProjectRequest projectRequest) {
+        researcherService.removeResearcherFromProject(researcherId, projectRequest.project());
+    }
+
 }
