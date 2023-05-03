@@ -15,7 +15,9 @@ public class ResearcherController {
     }
 
     @PutMapping("{researcherId}/{contactType}")
-    public void updateContactInformation(@PathVariable Long researcherId, @PathVariable ContactType contactType, @RequestBody @Valid ContactTypeValue contactTypeValue) {
+    public void updateContactInformation(@PathVariable Long researcherId,
+                                         @PathVariable ContactType contactType,
+                                         @RequestBody @Valid ContactTypeValue contactTypeValue) {
         researcherService.updateContactInformation(researcherId, contactType, contactTypeValue.value());
     }
 
@@ -27,6 +29,11 @@ public class ResearcherController {
     @PostMapping("{researcherId}/leave")
     public void removeResearcherFromProject(@PathVariable Long researcherId, @RequestBody @Valid ProjectRequest projectRequest) {
         researcherService.removeResearcherFromProject(researcherId, projectRequest.project());
+    }
+
+    @DeleteMapping("{researcherId}")
+    public void deleteResearcher(@PathVariable long researcherId) {
+        researcherService.deleteResearcher(researcherId);
     }
 
 }

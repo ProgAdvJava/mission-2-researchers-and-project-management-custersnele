@@ -2,7 +2,6 @@ package be.pxl.projects.api;
 
 import be.pxl.projects.domain.ProjectPhase;
 import be.pxl.projects.service.ProjectService;
-import jakarta.websocket.server.PathParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
